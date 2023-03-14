@@ -22,11 +22,31 @@ import time
 import random
 import os
 
+'''
+if save data exists in current directory: load the variables
+else: give intro with asking name etc.
+'''
+
 #starting variables
 currentDay = 1
+name = "Leb"
+Money = 10
 
 #Functions------------------------------
 #blankScreen(): clear the terminal screen between menu decisions
+def market(currentCity):
+   blankScreen()
+   for good in currentCity.goods:
+      print(good.name, end = ' ')
+      print(good.quantity)
+   time.sleep(1)
+
+def travel(currentCity):
+   blankScreen()
+   for city in currentCity.nodes:
+      print(city.name)
+   input()
+
 def blankScreen():
     os.system('cls||clear')
 
@@ -36,41 +56,52 @@ def inventory():
     time.sleep(1)
 
 '''
-if save data exists in current directory: load the variables
-else: give intro with asking name etc.
-'''
-
+This block of code is the introduction. It will execute when there is no save file already
 #player name
 name = input('What is your name?')
 
 #literal string interpolation
 print(f"Hello, {name}. Welcome to being a merchant")
-input()
+time.sleep(2)
 blankScreen()
+'''
 
 #"City" class
 class City:
    def __init__(self, name):
       self.name = name
+      self.nodes = []
+      self.goods = []
 #list of Cities-------------------------
 Kutaisi = City("Kutaisi ქუთაისი")
+Zestafoni = City("Zestafoni ზესტაფონი")
+Baghdati = City("Baghdati ბაღდათი")
 currentCity = Kutaisi#starting city is Kutaisi
+#City nodes / connections---------------
+Kutaisi.nodes.append(Zestafoni)
+Kutaisi.nodes.append(Baghdati)
+#City starting goods
 
-#"Goods" class
+#"Goods" class and inventory
 class Good:
   def __init__(self, name):
     self.name = name
+    self.quantity = 1
 #list of Goods--------------------------
 tyemali = Good("Tyemali ტყემალი")
-#print(tyemali.name)
-#time.sleep(1)
+tyemali.quantity = 1
+Kutaisi.goods.append(tyemali)
+Baghdati.goods.append(tyemali)
+Baghdati.goods.append(tyemali)
 
 
 #main menu
 while True:
     blankScreen()
-    print(f"Current city: {currentCity.name}")#Print the name of your current city
-    print(f"Day: {currentDay}")
+    print(f"Current city:\t{currentCity.name}")#Print the name of your current city
+    print(f"Day: {currentDay}", end = ' ')#end = ' ' is for printing the following line on this line 
+    print(f"\t\tMoney: {Money}ლ")
+    print("-----------")#barrier newline between user's stats, and the list of menu options
     print(f"1. Visit market")
     print(f"2. Travel")
     print(f"3. Rest")
@@ -78,6 +109,10 @@ while True:
     menuChoice = str(input())
 
     #menuChoices
+    if menuChoice == "1":#market
+       market(currentCity)
+    if menuChoice == "2":#travel
+       travel(currentCity)
     if menuChoice == "3":#rest
        currentDay = currentDay + 1#"sleep" and increase the Day by 1
        continue
