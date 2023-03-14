@@ -3,17 +3,13 @@
 #march 11 2023
 
 '''
-use either JSON or .csv to load and save game states, so player can resume from last play
-you are a merchant who buys and sells things
 player has money
 player has a mode of transportation, which can be upgraded
 there are different cities
 each city has a market where you buy and sell things
 different cities will have different prices for each item
-You gotta make money
 Maybe sometimes, an item will not be available in a city. It will then be valuable
 Maybe there will be pirates who attack you while traveling
-Hmm
 Setting:    takes place in Republic of Georgia
             you start in Kutaisi
             2023
@@ -25,6 +21,9 @@ Don't worry about learning to code, but just learn how to do each thing you want
 import time
 import random
 import os
+
+#starting variables
+currentDay = 1
 
 #Functions------------------------------
 #blankScreen(): clear the terminal screen between menu decisions
@@ -41,6 +40,7 @@ if save data exists in current directory: load the variables
 else: give intro with asking name etc.
 '''
 
+#player name
 name = input('What is your name?')
 
 #literal string interpolation
@@ -69,13 +69,19 @@ tyemali = Good("Tyemali ტყემალი")
 #main menu
 while True:
     blankScreen()
-    print(f"1. Current city: {currentCity.name}")#Print the name of your current city
-    print(f"2. Visit market")
-    print(f"3. Travel")
-    print(f"4. Rest")
-    print(f"5. Inventory")
+    print(f"Current city: {currentCity.name}")#Print the name of your current city
+    print(f"Day: {currentDay}")
+    print(f"1. Visit market")
+    print(f"2. Travel")
+    print(f"3. Rest")
+    print(f"4. Inventory")
     menuChoice = str(input())
-    if menuChoice == "5":
+
+    #menuChoices
+    if menuChoice == "3":#rest
+       currentDay = currentDay + 1#"sleep" and increase the Day by 1
+       continue
+    elif menuChoice == "4":#inventory
         inventory()
     else:
        continue
