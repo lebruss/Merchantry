@@ -32,10 +32,13 @@ currentDay = 1
 name = "Leb"
 Money = 10
 
+
+
 #Functions------------------------------
 #blankScreen(): clear the terminal screen between menu decisions
 def market(currentCity):
    blankScreen()
+   print("*Add buy and sell functionality*")
    for good in currentCity.goods:
       print(good.name, end = ' ')
       print(good.quantity)
@@ -43,6 +46,7 @@ def market(currentCity):
 
 def travel(currentCity):
    blankScreen()
+   print("*Add travel functionality*")
    for city in currentCity.nodes:
       print(city.name)
    input()
@@ -51,6 +55,7 @@ def blankScreen():
     os.system('cls||clear')
 
 def inventory():
+    print("Add player inventory goods, and print these goods and quantity")
     blankScreen()
     print("Inventory")
     time.sleep(1)
@@ -72,6 +77,7 @@ class City:
       self.name = name
       self.nodes = []
       self.goods = []
+
 #list of Cities-------------------------
 Kutaisi = City("Kutaisi ქუთაისი")
 Zestafoni = City("Zestafoni ზესტაფონი")
