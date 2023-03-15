@@ -10,11 +10,6 @@ each city has a market where you buy and sell things
 different cities will have different prices for each item
 Maybe sometimes, an item will not be available in a city. It will then be valuable
 Maybe there will be pirates who attack you while traveling
-Setting:    takes place in Republic of Georgia
-            you start in Kutaisi
-            2023
-money is Georgian lari ₾
-compile the game to an .exe also that lets the user play the game without pre-installed Python
 Don't worry about learning to code, but just learn how to do each thing you want to do
 '''
 
@@ -31,7 +26,8 @@ else: give intro with asking name etc.
 currentDay = 1
 name = "Leb"
 Money = 10
-
+months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
+userInventory = []
 
 
 #Functions------------------------------
@@ -42,7 +38,7 @@ def market(currentCity):
    for good in currentCity.goods:
       print(good.name, end = ' ')
       print(good.quantity)
-   time.sleep(1)
+   input("Press any key to continue")
 
 def travel(currentCity):
    blankScreen()
@@ -55,10 +51,11 @@ def blankScreen():
     os.system('cls||clear')
 
 def inventory():
-    print("Add player inventory goods, and print these goods and quantity")
     blankScreen()
-    print("Inventory")
-    time.sleep(1)
+    for good in userInventory:
+       print(good.name, end = ' ')
+       print(good.quantity)
+    input()
 
 '''
 This block of code is the introduction. It will execute when there is no save file already
@@ -94,8 +91,13 @@ class Good:
     self.name = name
     self.quantity = 1
 #list of Goods--------------------------
+#goods: tyemali, sugar, shotaspuri, beans, potatoes, gold, paper
 tyemali = Good("Tyemali ტყემალი")
 tyemali.quantity = 1
+userInventory.append(tyemali)
+sugar = Good("Sugar")
+sugar.quantity = 5
+userInventory.append(sugar)
 Kutaisi.goods.append(tyemali)
 Baghdati.goods.append(tyemali)
 Baghdati.goods.append(tyemali)
@@ -121,6 +123,7 @@ while True:
        travel(currentCity)
     if menuChoice == "3":#rest
        currentDay = currentDay + 1#"sleep" and increase the Day by 1
+       #goods in city will change price and quantity
        continue
     elif menuChoice == "4":#inventory
         inventory()
