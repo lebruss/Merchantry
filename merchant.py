@@ -2,33 +2,19 @@
 #caleb james russell
 #march 11 2023
 
-'''
-player has money
-player has a mode of transportation, which can be upgraded
-there are different cities
-each city has a market where you buy and sell things
-different cities will have different prices for each item
-Maybe sometimes, an item will not be available in a city. It will then be valuable
-Maybe there will be pirates who attack you while traveling
-Don't worry about learning to code, but just learn how to do each thing you want to do
-'''
-
 import time
 import random
 import os
 
-'''
-if save data exists in current directory: load the variables
-else: give intro with asking name etc.
-'''
-
 #starting variables
 currentDay = 1
 name = "Leb"
-Money = 10
+Money = random.randrange(2,10)
 months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December']
 userInventory = []
-
+shelter = ''#this is where the player sleeps
+maxHealth = random.randrange(2,10)
+currentHealth = maxHealth#Player begins with maximum health
 
 #Functions------------------------------
 #blankScreen(): clear the terminal screen between menu decisions
@@ -56,17 +42,6 @@ def inventory():
        print(good.name, end = ' ')
        print(good.quantity)
     input()
-
-'''
-This block of code is the introduction. It will execute when there is no save file already
-#player name
-name = input('What is your name?')
-
-#literal string interpolation
-print(f"Hello, {name}. Welcome to being a merchant")
-time.sleep(2)
-blankScreen()
-'''
 
 #"City" class
 class City:
@@ -102,18 +77,27 @@ Kutaisi.goods.append(tyemali)
 Baghdati.goods.append(tyemali)
 Baghdati.goods.append(tyemali)
 
+#intro
+print("Welcome to Merchantry.")
+time.sleep(1)
+print("You must use your social acumen to support yourself via trade.")
+time.sleep(2)
+blankScreen()
 
 #main menu
 while True:
     blankScreen()
-    print(f"Current city:\t{currentCity.name}")#Print the name of your current city
-    print(f"Day: {currentDay}", end = ' ')#end = ' ' is for printing the following line on this line 
-    print(f"\t\tMoney: {Money}ლ")
-    print("-----------")#barrier newline between user's stats, and the list of menu options
-    print(f"1. Visit market")
-    print(f"2. Travel")
-    print(f"3. Rest")
-    print(f"4. Inventory")
+    print(f"{name}", end = ' '
+          f'\t\tHealth: {currentHealth} / {maxHealth} \n'
+          f"Current city:\t{currentCity.name}\n"
+          f"Day: {currentDay}"
+          f"\t\tMoney: {Money}ლ\n"
+          "------------------------\n"
+          "1. Visit market\n"
+          "2. Travel\n"
+          "3. Rest\n"
+          "4. Inventory\n"
+    )
     menuChoice = str(input())
 
     #menuChoices
@@ -124,6 +108,9 @@ while True:
     if menuChoice == "3":#rest
        currentDay = currentDay + 1#"sleep" and increase the Day by 1
        #goods in city will change price and quantity
+       blankScreen()
+       print("You rest outside.")#default until more shelter types added
+       time.sleep(1)
        continue
     elif menuChoice == "4":#inventory
         inventory()
