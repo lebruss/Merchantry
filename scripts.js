@@ -32,7 +32,7 @@ function startGame() {
         updateUI();
         randomizePrices();
     } else {
-        alert('Please enter a name for your character.');
+        showAlert('Please enter a name for your character.');
     }
 }
 
@@ -78,7 +78,7 @@ function buyGood(good) {
         character.inventory[good] += 1;
         updateUI();
     } else {
-        alert('Not enough money!');
+        showAlert('Not enough money!');
     }
 }
 
@@ -88,6 +88,15 @@ function sellGood(good) {
         character.inventory[good] -= 1;
         updateUI();
     } else {
-        alert('No inventory to sell!');
+        showAlert('No inventory to sell!');
     }
+}
+
+function showAlert(message) {
+    const alertBox = document.getElementById('alertBox');
+    alertBox.innerText = message;
+    alertBox.style.display = 'block';
+    setTimeout(() => {
+        alertBox.style.display = 'none';
+    }, 3000);
 }
