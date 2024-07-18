@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchant Game</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Merchant Game</h1>
+        <div id="game">
+            <div id="info">
+                <p>Name: <span id="charName"></span></p>
+                <p>Location: <span id="location"></span></p>
+                <p>Money: <span id="money"></span></p>
+                <p>Inventory: <span id="inventory"></span></p>
+                <p>Days Passed: <span id="days"></span></p>
+            </div>
+            <div id="locations">
+                <button onclick="travel('Tallinn')">Travel to Tallinn</button>
+                <button onclick="travel('Helsinki')">Travel to Helsinki</button>
+                <button onclick="travel('Stockholm')">Travel to Stockholm</button>
+            </div>
+            <div id="market">
+                <h2>Market</h2>
+                <div id="goods"></div>
+            </div>
+        </div>
+        <div id="start">
+            <h2>Start Game</h2>
+            <input type="text" id="characterName" placeholder="Enter your character's name">
+            <button onclick="startGame()">Start</button>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
