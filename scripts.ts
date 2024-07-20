@@ -3,6 +3,7 @@ interface Character {
     location: string;
     money: number;
     inventory: Inventory;
+    lastBoughtPrices: Inventory;
     days: number;
 }
 
@@ -27,6 +28,13 @@ let character: Character = {
     location: 'Tallinn',
     money: 100,
     inventory: {
+        flour: 0,
+        meat: 0,
+        sugar: 0,
+        gunpowder: 0,
+        candles: 0
+    },
+    lastBoughtPrices: {
         flour: 0,
         meat: 0,
         sugar: 0,
@@ -62,8 +70,7 @@ function startGame(): void {
 
 function updateUI(): void {
     (document.getElementById('location') as HTMLSpanElement).innerText = character.location;
-    (document.getElementById('money') as HTMLSpanElement).innerText = character.money.toString();
-    (document.getElementById('inventory') as HTMLSpanElement).innerText = JSON.stringify(character.inventory, null, 2);
+    (document.getElementById('money') as HTMLSpanElement).innerText = `${character.money} €`;
     (document.getElementById('days') as HTMLSpanElement).innerText = character.days.toString();
 
     const goodsContainer = document.getElementById('goods') as HTMLDivElement;
@@ -72,9 +79,13 @@ function updateUI(): void {
         const goodElement = document.createElement('div');
         goodElement.classList.add('good');
         goodElement.innerHTML = `
-            <span>${good}: ${prices[good as keyof Prices]} gold</span>
-            <button onclick="buyGood('${good}')">Buy</button>
-            <button onclick="sellGood('${good}')">Sell</button>
+            <span>${good}: ${prices[good as keyof Prices]} € (Owned: ${character.inventory[good as keyof Inventory]}) (Last bought for: ${character.lastBoughtPrices[good as keyof Inventory]} €)</span>
+            <div class="buttons">
+                <button onclick="buyGood('${good}')">Buy</button>
+                <button onclick="buyMaxGood('${good}')">Buy Max</button>
+                <button onclick="sellGood('${good}')">Sell</button>
+                <button onclick="sellAllGood('${good}')">Sell All</button>
+            </div>
         `;
         goodsContainer.appendChild(goodElement);
     }
@@ -97,9 +108,24 @@ function randomizePrices(): void {
 }
 
 function buyGood(good: string): void {
-    if (character.money >= prices[good as keyof Prices]) {
-        character.money -= prices[good as keyof Prices];
+    const price = prices[good as keyof Prices];
+    if (character.money >= price) {
+        character.money -= price;
         character.inventory[good as keyof Inventory] += 1;
+        character.lastBoughtPrices[good as keyof Inventory] = price;
+        updateUI();
+    } else {
+        showAlert('Not enough money!');
+    }
+}
+
+function buyMaxGood(good: string): void {
+    const price = prices[good as keyof Prices];
+    const maxBuyable = Math.floor(character.money / price);
+    if (maxBuyable > 0) {
+        character.money -= maxBuyable * price;
+        character.inventory[good as keyof Inventory] += maxBuyable;
+        character.lastBoughtPrices[good as keyof Inventory] = price;
         updateUI();
     } else {
         showAlert('Not enough money!');
@@ -108,8 +134,21 @@ function buyGood(good: string): void {
 
 function sellGood(good: string): void {
     if (character.inventory[good as keyof Inventory] > 0) {
-        character.money += prices[good as keyof Prices];
+        const price = prices[good as keyof Prices];
+        character.money += price;
         character.inventory[good as keyof Inventory] -= 1;
+        updateUI();
+    } else {
+        showAlert('No inventory to sell!');
+    }
+}
+
+function sellAllGood(good: string): void {
+    const quantity = character.inventory[good as keyof Inventory];
+    if (quantity > 0) {
+        const price = prices[good as keyof Prices];
+        character.money += quantity * price;
+        character.inventory[good as keyof Inventory] = 0;
         updateUI();
     } else {
         showAlert('No inventory to sell!');

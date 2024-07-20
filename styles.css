@@ -1,5 +1,5 @@
 body {
-    font-family: Arial, sans-serif;
+    font-family: "Times New Roman", Times, serif;
     background-color: #f0f0f0;
     margin: 0;
     padding: 0;
@@ -28,9 +28,24 @@ body {
 
 .good {
     display: flex;
-    justify-content: space-between;
-    align-items: center;
+    flex-direction: column;
+    align-items: flex-start;
     margin-bottom: 10px;
+}
+
+.good span {
+    display: block;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.buttons button {
+    flex: 1;
+    margin: 2px;
 }
 
 .alert-box {
