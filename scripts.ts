@@ -1,3 +1,14 @@
+//Merchantry by lebruss
+//press Enter to startGame
+document.addEventListener('DOMContentLoaded', () => {
+    const characterNameInput = document.getElementById('characterName') as HTMLInputElement;
+    characterNameInput.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            startGame();
+        }
+    });
+});
+
 interface Character {
     name: string;
     location: string;

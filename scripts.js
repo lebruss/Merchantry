@@ -1,3 +1,13 @@
+//Merchantry by lebruss
+//press Enter to startGame
+document.addEventListener('DOMContentLoaded', function () {
+    var characterNameInput = document.getElementById('characterName');
+    characterNameInput.addEventListener('keydown', function (event) {
+        if (event.key === 'Enter') {
+            startGame();
+        }
+    });
+});
 var character = {
     name: '',
     location: 'Tallinn',
