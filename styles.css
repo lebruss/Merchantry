@@ -14,7 +14,8 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 300px;
+    width: auto; /* auto-adjust container width to fit the text */
+    max-width: 90%;
     text-align: center;
 }
 
@@ -31,10 +32,12 @@ body {
     flex-direction: column;
     align-items: flex-start;
     margin-bottom: 10px;
+    width: 100%;
 }
 
 .good span {
     display: block;
+    white-space: normal;
 }
 
 .buttons {
