@@ -1,5 +1,3 @@
-//Merchantry by lebruss
-//press Enter to startGame
 document.addEventListener('DOMContentLoaded', () => {
     const characterNameInput = document.getElementById('characterName') as HTMLInputElement;
     characterNameInput.addEventListener('keydown', (event) => {
@@ -79,9 +77,13 @@ function startGame(): void {
     }
 }
 
+function formatMoney(value: number): string {
+    return new Intl.NumberFormat('de-DE').format(value);
+}
+
 function updateUI(): void {
     (document.getElementById('location') as HTMLSpanElement).innerText = character.location;
-    (document.getElementById('money') as HTMLSpanElement).innerText = `${character.money} €`;
+    (document.getElementById('money') as HTMLSpanElement).innerText = `${formatMoney(character.money)} €`;
     (document.getElementById('days') as HTMLSpanElement).innerText = character.days.toString();
 
     const goodsContainer = document.getElementById('goods') as HTMLDivElement;
@@ -90,7 +92,7 @@ function updateUI(): void {
         const goodElement = document.createElement('div');
         goodElement.classList.add('good');
         goodElement.innerHTML = `
-            <span>${good}: ${prices[good as keyof Prices]} € (Owned: ${character.inventory[good as keyof Inventory]}) (Last bought for: ${character.lastBoughtPrices[good as keyof Inventory]} €)</span>
+            <span><strong>${good}</strong>: ${prices[good as keyof Prices]} € (Owned: ${character.inventory[good as keyof Inventory]}) (Last bought for: ${character.lastBoughtPrices[good as keyof Inventory]} €)</span>
             <div class="buttons">
                 <button onclick="buyGood('${good}')">Buy</button>
                 <button onclick="buyMaxGood('${good}')">Buy Max</button>
@@ -100,6 +102,33 @@ function updateUI(): void {
         `;
         goodsContainer.appendChild(goodElement);
     }
+}
+
+function toggleTravelOptions(): void {
+    const travelOptions = document.getElementById('travelOptions') as HTMLDivElement;
+    if (travelOptions.style.display === 'none' || travelOptions.style.display === '') {
+        updateTravelOptions();
+        travelOptions.style.display = 'flex';
+        travelOptions.style.animation = 'fadeIn 0.5s forwards';
+    } else {
+        travelOptions.style.display = 'none';
+    }
+}
+
+function updateTravelOptions(): void {
+    const travelOptions = document.getElementById('travelOptions') as HTMLDivElement;
+    travelOptions.innerHTML = '';
+    locations.forEach((location) => {
+        if (location !== character.location) {
+            const button = document.createElement('button');
+            button.innerText = `Travel to ${location}`;
+            button.onclick = () => {
+                travel(location);
+                toggleTravelOptions();
+            };
+            travelOptions.appendChild(button);
+        }
+    });
 }
 
 function travel(location: string): void {
@@ -150,7 +179,7 @@ function sellGood(good: string): void {
         character.inventory[good as keyof Inventory] -= 1;
         updateUI();
     } else {
-        showAlert('No inventory to sell!');
+        showAlert('You don\'t own that good!');
     }
 }
 

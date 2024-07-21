@@ -1,5 +1,3 @@
-//Merchantry by lebruss
-//press Enter to startGame
 document.addEventListener('DOMContentLoaded', function () {
     var characterNameInput = document.getElementById('characterName');
     characterNameInput.addEventListener('keydown', function (event) {
@@ -50,18 +48,47 @@ function startGame() {
         showAlert('Please enter a name for your character.');
     }
 }
+function formatMoney(value) {
+    return new Intl.NumberFormat('de-DE').format(value);
+}
 function updateUI() {
     document.getElementById('location').innerText = character.location;
-    document.getElementById('money').innerText = "".concat(character.money, " \u20AC");
+    document.getElementById('money').innerText = "".concat(formatMoney(character.money), " \u20AC");
     document.getElementById('days').innerText = character.days.toString();
     var goodsContainer = document.getElementById('goods');
     goodsContainer.innerHTML = '';
     for (var good in prices) {
         var goodElement = document.createElement('div');
         goodElement.classList.add('good');
-        goodElement.innerHTML = "\n            <span>".concat(good, ": ").concat(prices[good], " \u20AC (Owned: ").concat(character.inventory[good], ") (Last bought for: ").concat(character.lastBoughtPrices[good], " \u20AC)</span>\n            <div class=\"buttons\">\n                <button onclick=\"buyGood('").concat(good, "')\">Buy</button>\n                <button onclick=\"buyMaxGood('").concat(good, "')\">Buy Max</button>\n                <button onclick=\"sellGood('").concat(good, "')\">Sell</button>\n                <button onclick=\"sellAllGood('").concat(good, "')\">Sell All</button>\n            </div>\n        ");
+        goodElement.innerHTML = "\n            <span><strong>".concat(good, "</strong>: ").concat(prices[good], " \u20AC (Owned: ").concat(character.inventory[good], ") (Last bought for: ").concat(character.lastBoughtPrices[good], " \u20AC)</span>\n            <div class=\"buttons\">\n                <button onclick=\"buyGood('").concat(good, "')\">Buy</button>\n                <button onclick=\"buyMaxGood('").concat(good, "')\">Buy Max</button>\n                <button onclick=\"sellGood('").concat(good, "')\">Sell</button>\n                <button onclick=\"sellAllGood('").concat(good, "')\">Sell All</button>\n            </div>\n        ");
         goodsContainer.appendChild(goodElement);
     }
+}
+function toggleTravelOptions() {
+    var travelOptions = document.getElementById('travelOptions');
+    if (travelOptions.style.display === 'none' || travelOptions.style.display === '') {
+        updateTravelOptions();
+        travelOptions.style.display = 'flex';
+        travelOptions.style.animation = 'fadeIn 0.5s forwards';
+    }
+    else {
+        travelOptions.style.display = 'none';
+    }
+}
+function updateTravelOptions() {
+    var travelOptions = document.getElementById('travelOptions');
+    travelOptions.innerHTML = '';
+    locations.forEach(function (location) {
+        if (location !== character.location) {
+            var button = document.createElement('button');
+            button.innerText = "Travel to ".concat(location);
+            button.onclick = function () {
+                travel(location);
+                toggleTravelOptions();
+            };
+            travelOptions.appendChild(button);
+        }
+    });
 }
 function travel(location) {
     if (character.location !== location) {
@@ -110,7 +137,7 @@ function sellGood(good) {
         updateUI();
     }
     else {
-        showAlert('No inventory to sell!');
+        showAlert('You don\'t own that good!');
     }
 }
 function sellAllGood(good) {
