@@ -82,7 +82,7 @@ function formatMoney(value: number): string {
 }
 
 function updateUI(): void {
-    (document.getElementById('location') as HTMLSpanElement).innerText = character.location;
+    (document.getElementById('location') as HTMLSpanElement).innerText = `Location: ${character.location}`;
     (document.getElementById('money') as HTMLSpanElement).innerText = `${formatMoney(character.money)} €`;
     (document.getElementById('days') as HTMLSpanElement).innerText = character.days.toString();
 

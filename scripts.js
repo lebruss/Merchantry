@@ -52,7 +52,7 @@ function formatMoney(value) {
     return new Intl.NumberFormat('de-DE').format(value);
 }
 function updateUI() {
-    document.getElementById('location').innerText = character.location;
+    document.getElementById('location').innerText = "Location: ".concat(character.location);
     document.getElementById('money').innerText = "".concat(formatMoney(character.money), " \u20AC");
     document.getElementById('days').innerText = character.days.toString();
     var goodsContainer = document.getElementById('goods');

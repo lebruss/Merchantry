@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Merchantry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Merchantry by lebruss</h1>
+        <div id="game">
+            <div id="info">
+                <p>Name: <span id="charName"></span></p>
+                <p>Money: <span id="money"></span></p>
+                <p>Days Passed: <span id="days"></span></p>
+            </div>
+            <div id="locations">
+                <span id="location"></span>
+                <button onclick="toggleTravelOptions()">Travel</button>
+                <div id="travelOptions"></div>
+            </div>
+            <div id="market">
+                <h2>Market</h2>
+                <div id="goods"></div>
+            </div>
+            <div id="alertBox" class="alert-box"></div>
+        </div>
+        <div id="start">
+            <input type="text" id="characterName" placeholder="Enter your name">
+            <button onclick="startGame()">Start</button>
+        </div>
+    </div>
+    <script src="scripts.js"></script>
+</body>
+</html>
