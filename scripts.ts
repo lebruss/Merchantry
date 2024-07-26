@@ -14,6 +14,7 @@ interface Character {
     inventory: Inventory;
     lastBoughtPrices: Inventory;
     days: number;
+    julianDate: Date;
 }
 
 interface Inventory {
@@ -50,7 +51,8 @@ let character: Character = {
         gunpowder: 0,
         candles: 0
     },
-    days: 0
+    days: 0,
+    julianDate: new Date()
 };
 
 let prices: Prices = {
@@ -67,6 +69,7 @@ function startGame(): void {
     const nameInput = (document.getElementById('characterName') as HTMLInputElement).value;
     if (nameInput) {
         character.name = nameInput;
+        character.julianDate = generateRandomJulianDate();
         (document.getElementById('charName') as HTMLSpanElement).innerText = character.name;
         (document.getElementById('start') as HTMLDivElement).style.display = 'none';
         (document.getElementById('game') as HTMLDivElement).style.display = 'block';
@@ -77,6 +80,20 @@ function startGame(): void {
     }
 }
 
+function generateRandomJulianDate(): Date {
+    const startYear = 800;
+    const endYear = 1400;
+    const year = Math.floor(Math.random() * (endYear - startYear + 1)) + startYear;
+    const month = Math.floor(Math.random() * 12); // 0-11 for Date object month
+    const day = Math.floor(Math.random() * 31) + 1; // 1-31
+    return new Date(year, month, day);
+}
+
+function formatJulianDate(date: Date): string {
+    const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
+
 function formatMoney(value: number): string {
     return new Intl.NumberFormat('de-DE').format(value);
 }
@@ -84,7 +101,7 @@ function formatMoney(value: number): string {
 function updateUI(): void {
     (document.getElementById('location') as HTMLSpanElement).innerText = `Location: ${character.location}`;
     (document.getElementById('money') as HTMLSpanElement).innerText = `${formatMoney(character.money)} €`;
-    (document.getElementById('days') as HTMLSpanElement).innerText = character.days.toString();
+    (document.getElementById('julianDate') as HTMLSpanElement).innerText = formatJulianDate(character.julianDate);
 
     const goodsContainer = document.getElementById('goods') as HTMLDivElement;
     goodsContainer.innerHTML = '';
@@ -135,6 +152,7 @@ function travel(location: string): void {
     if (character.location !== location) {
         character.location = location;
         character.days += 1;
+        character.julianDate.setDate(character.julianDate.getDate() + 1); // Increment the Julian date by one day
         randomizePrices();
         updateUI();
     }

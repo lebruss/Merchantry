@@ -24,7 +24,8 @@ var character = {
         gunpowder: 0,
         candles: 0
     },
-    days: 0
+    days: 0,
+    julianDate: new Date()
 };
 var prices = {
     flour: 0,
@@ -38,6 +39,7 @@ function startGame() {
     var nameInput = document.getElementById('characterName').value;
     if (nameInput) {
         character.name = nameInput;
+        character.julianDate = generateRandomJulianDate();
         document.getElementById('charName').innerText = character.name;
         document.getElementById('start').style.display = 'none';
         document.getElementById('game').style.display = 'block';
@@ -48,13 +50,25 @@ function startGame() {
         showAlert('Please enter a name for your character.');
     }
 }
+function generateRandomJulianDate() {
+    var startYear = 800;
+    var endYear = 1400;
+    var year = Math.floor(Math.random() * (endYear - startYear + 1)) + startYear;
+    var month = Math.floor(Math.random() * 12); // 0-11 for Date object month
+    var day = Math.floor(Math.random() * 31) + 1; // 1-31
+    return new Date(year, month, day);
+}
+function formatJulianDate(date) {
+    var options = { year: 'numeric', month: 'long', day: 'numeric' };
+    return date.toLocaleDateString('en-US', options);
+}
 function formatMoney(value) {
     return new Intl.NumberFormat('de-DE').format(value);
 }
 function updateUI() {
     document.getElementById('location').innerText = "Location: ".concat(character.location);
     document.getElementById('money').innerText = "".concat(formatMoney(character.money), " \u20AC");
-    document.getElementById('days').innerText = character.days.toString();
+    document.getElementById('julianDate').innerText = formatJulianDate(character.julianDate);
     var goodsContainer = document.getElementById('goods');
     goodsContainer.innerHTML = '';
     for (var good in prices) {
@@ -94,6 +108,7 @@ function travel(location) {
     if (character.location !== location) {
         character.location = location;
         character.days += 1;
+        character.julianDate.setDate(character.julianDate.getDate() + 1); // Increment the Julian date by one day
         randomizePrices();
         updateUI();
     }
