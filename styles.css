@@ -45,12 +45,15 @@ body {
 }
 
 .good span:first-child {
-    width: 150px; /* Adjust width as necessary */
+    width: 150px;
     display: inline-block;
+    background-color: #d3d3d3; /* Light grey */
+    padding: 5px;
+    border-radius: 4px;
 }
 
 .last-bought {
-    margin-left: 10px; /*vertically-align the left-most character for Last Bought*/
+    margin-left: 10px; /* Vertically-aligned (Last Bought For) element */
 }
 
 .buttons {
