@@ -1,3 +1,4 @@
+//EventListener takes keyboard input. (press enter to Start)
 document.addEventListener('DOMContentLoaded', function () {
     var characterNameInput = document.getElementById('characterName');
     characterNameInput.addEventListener('keydown', function (event) {
@@ -27,6 +28,7 @@ var character = {
     days: 0,
     julianDate: new Date()
 };
+//Goods' default prices = 0 (these are randomly generated later in code)
 var prices = {
     flour: 0,
     meat: 0,
@@ -34,7 +36,10 @@ var prices = {
     gunpowder: 0,
     candles: 0
 };
+//list of locations
+//right now these are only aesthetic difference, no different features per city yet
 var locations = ['Tallinn', 'Helsinki', 'Stockholm'];
+//start screen / splash screen
 function startGame() {
     var nameInput = document.getElementById('characterName').value;
     if (nameInput) {
@@ -50,6 +55,7 @@ function startGame() {
         showAlert('Please enter a name for your character.');
     }
 }
+//generate starting date for game, using Julian calendar
 function generateRandomJulianDate() {
     var startYear = 800;
     var endYear = 1400;
@@ -58,13 +64,16 @@ function generateRandomJulianDate() {
     var day = Math.floor(Math.random() * 31) + 1; // 1-31
     return new Date(year, month, day);
 }
+//format the date
 function formatJulianDate(date) {
     var options = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
 }
+//Money format will be displayed as 5.008.286€
 function formatMoney(value) {
     return new Intl.NumberFormat('de-DE').format(value);
 }
+//Update user interface when values change
 function updateUI() {
     document.getElementById('location').innerText = "Location: ".concat(character.location);
     document.getElementById('money').innerText = "".concat(formatMoney(character.money), " \u20AC");
@@ -78,10 +87,12 @@ function updateUI() {
         goodsContainer.appendChild(goodElement);
     }
 }
+//Travel buttons
 function toggleTravelOptions() {
     var travelOptions = document.getElementById('travelOptions');
     if (travelOptions.style.display === 'none' || travelOptions.style.display === '') {
         updateTravelOptions();
+        //click Travel button, and travel options' buttons will fade in
         travelOptions.style.display = 'flex';
         travelOptions.style.animation = 'fadeIn 0.5s forwards';
     }
@@ -104,21 +115,26 @@ function updateTravelOptions() {
         }
     });
 }
+//Travel
 function travel(location) {
     if (character.location !== location) {
         character.location = location;
+        //Pass 1 day
         character.days += 1;
         character.julianDate.setDate(character.julianDate.getDate() + 1); // Increment the Julian date by one day
+        //Set prices for destination city (just randomize the prices)
         randomizePrices();
         updateUI();
     }
 }
+//Set prices for destination city (just randomize the prices)
 function randomizePrices() {
     for (var good in prices) {
-        prices[good] = Math.floor(Math.random() * 100) + 1;
+        prices[good] = Math.floor(Math.random() * 100) + 1; //Prices are currently randomized between 1 and 100
     }
     updateUI();
 }
+//Buy a good
 function buyGood(good) {
     var price = prices[good];
     if (character.money >= price) {
@@ -131,6 +147,7 @@ function buyGood(good) {
         showAlert('Not enough money!');
     }
 }
+//Buy Max for a good; spend all money buying one good (with remainder money)
 function buyMaxGood(good) {
     var price = prices[good];
     var maxBuyable = Math.floor(character.money / price);
@@ -144,6 +161,7 @@ function buyMaxGood(good) {
         showAlert('Not enough money!');
     }
 }
+//Sell a good
 function sellGood(good) {
     if (character.inventory[good] > 0) {
         var price = prices[good];
@@ -155,6 +173,7 @@ function sellGood(good) {
         showAlert('You don\'t own that good!');
     }
 }
+//Sell All; if player has 400 candles, sell all of them at once
 function sellAllGood(good) {
     var quantity = character.inventory[good];
     if (quantity > 0) {
@@ -167,6 +186,7 @@ function sellAllGood(good) {
         showAlert('No inventory to sell!');
     }
 }
+//Alert messages
 function showAlert(message) {
     var alertBox = document.getElementById('alertBox');
     alertBox.innerText = message;

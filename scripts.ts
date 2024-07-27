@@ -1,3 +1,4 @@
+//EventListener takes keyboard input. (press enter to Start)
 document.addEventListener('DOMContentLoaded', () => {
     const characterNameInput = document.getElementById('characterName') as HTMLInputElement;
     characterNameInput.addEventListener('keydown', (event) => {
@@ -55,6 +56,7 @@ let character: Character = {
     julianDate: new Date()
 };
 
+//Goods' default prices = 0 (these are randomly generated later in code)
 let prices: Prices = {
     flour: 0,
     meat: 0,
@@ -63,8 +65,11 @@ let prices: Prices = {
     candles: 0
 };
 
+//list of locations
+//right now these are only aesthetic difference, no different features per city yet
 const locations: string[] = ['Tallinn', 'Helsinki', 'Stockholm'];
 
+//start screen / splash screen
 function startGame(): void {
     const nameInput = (document.getElementById('characterName') as HTMLInputElement).value;
     if (nameInput) {
@@ -80,6 +85,7 @@ function startGame(): void {
     }
 }
 
+//generate starting date for game, using Julian calendar
 function generateRandomJulianDate(): Date {
     const startYear = 800;
     const endYear = 1400;
@@ -89,15 +95,18 @@ function generateRandomJulianDate(): Date {
     return new Date(year, month, day);
 }
 
+//format the date
 function formatJulianDate(date: Date): string {
     const options: Intl.DateTimeFormatOptions = { year: 'numeric', month: 'long', day: 'numeric' };
     return date.toLocaleDateString('en-US', options);
 }
 
+//Money format will be displayed as 5.008.286€
 function formatMoney(value: number): string {
     return new Intl.NumberFormat('de-DE').format(value);
 }
 
+//Update user interface when values change
 function updateUI(): void {
     (document.getElementById('location') as HTMLSpanElement).innerText = `Location: ${character.location}`;
     (document.getElementById('money') as HTMLSpanElement).innerText = `${formatMoney(character.money)} €`;
@@ -121,10 +130,12 @@ function updateUI(): void {
     }
 }
 
+//Travel buttons
 function toggleTravelOptions(): void {
     const travelOptions = document.getElementById('travelOptions') as HTMLDivElement;
     if (travelOptions.style.display === 'none' || travelOptions.style.display === '') {
         updateTravelOptions();
+        //click Travel button, and travel options' buttons will fade in
         travelOptions.style.display = 'flex';
         travelOptions.style.animation = 'fadeIn 0.5s forwards';
     } else {
@@ -148,23 +159,27 @@ function updateTravelOptions(): void {
     });
 }
 
+//Travel
 function travel(location: string): void {
     if (character.location !== location) {
         character.location = location;
+        //Pass 1 day
         character.days += 1;
         character.julianDate.setDate(character.julianDate.getDate() + 1); // Increment the Julian date by one day
+        //Set prices for destination city (just randomize the prices)
         randomizePrices();
         updateUI();
     }
 }
-
+//Set prices for destination city (just randomize the prices)
 function randomizePrices(): void {
     for (const good in prices) {
-        prices[good as keyof Prices] = Math.floor(Math.random() * 100) + 1;
+        prices[good as keyof Prices] = Math.floor(Math.random() * 100) + 1;//Prices are currently randomized between 1 and 100
     }
     updateUI();
 }
 
+//Buy a good
 function buyGood(good: string): void {
     const price = prices[good as keyof Prices];
     if (character.money >= price) {
@@ -177,6 +192,7 @@ function buyGood(good: string): void {
     }
 }
 
+//Buy Max for a good; spend all money buying one good (with remainder money)
 function buyMaxGood(good: string): void {
     const price = prices[good as keyof Prices];
     const maxBuyable = Math.floor(character.money / price);
@@ -190,6 +206,7 @@ function buyMaxGood(good: string): void {
     }
 }
 
+//Sell a good
 function sellGood(good: string): void {
     if (character.inventory[good as keyof Inventory] > 0) {
         const price = prices[good as keyof Prices];
@@ -201,6 +218,7 @@ function sellGood(good: string): void {
     }
 }
 
+//Sell All; if player has 400 candles, sell all of them at once
 function sellAllGood(good: string): void {
     const quantity = character.inventory[good as keyof Inventory];
     if (quantity > 0) {
@@ -213,6 +231,7 @@ function sellAllGood(good: string): void {
     }
 }
 
+//Alert messages
 function showAlert(message: string): void {
     const alertBox = document.getElementById('alertBox') as HTMLDivElement;
     alertBox.innerText = message;
