@@ -83,7 +83,7 @@ function updateUI() {
     for (var good in prices) {
         var goodElement = document.createElement('div');
         goodElement.classList.add('good');
-        goodElement.innerHTML = "\n            <span><strong>".concat(good, "</strong>: ").concat(prices[good], " \u20AC (Owned: ").concat(character.inventory[good], ") (Last bought for: ").concat(character.lastBoughtPrices[good], " \u20AC)</span>\n            <div class=\"buttons\">\n                <button onclick=\"buyGood('").concat(good, "')\">Buy</button>\n                <button onclick=\"buyMaxGood('").concat(good, "')\">Buy Max</button>\n                <button onclick=\"sellGood('").concat(good, "')\">Sell</button>\n                <button onclick=\"sellAllGood('").concat(good, "')\">Sell All</button>\n            </div>\n        ");
+        goodElement.innerHTML = "\n            <span><strong>".concat(good, "</strong>: ").concat(prices[good], " \u20AC</span>\n            <span class=\"last-bought\">(Last bought for: ").concat(character.lastBoughtPrices[good], " \u20AC) (Owned: ").concat(character.inventory[good], ")</span>\n            <div class=\"buttons\">\n                <button onclick=\"buyGood('").concat(good, "')\">Buy</button>\n                <button onclick=\"buyMaxGood('").concat(good, "')\">Buy Max</button>\n                <button onclick=\"sellGood('").concat(good, "')\">Sell</button>\n                <button onclick=\"sellAllGood('").concat(good, "')\">Sell All</button>\n            </div>\n        ");
         goodsContainer.appendChild(goodElement);
     }
 }

@@ -34,16 +34,23 @@ body {
     align-items: flex-start;
     margin-bottom: 10px;
     width: 100%;
-    text-align: left; /* Left-align the goods */
+    text-align: left;
 }
 
 .good span {
     display: block;
-    white-space: nowrap; /* Prevent line breaks */
-    width: 100%;
-    text-align: left;
-    overflow: hidden; /* Hide overflow */
-    text-overflow: ellipsis; /* Add ellipsis for overflow */
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.good span:first-child {
+    width: 150px; /* Adjust width as necessary */
+    display: inline-block;
+}
+
+.last-bought {
+    margin-left: 10px; /*vertically-align the left-most character for Last Bought*/
 }
 
 .buttons {
@@ -59,7 +66,7 @@ body {
 
 #locations {
     display: flex;
-    justify-content: flex-start; /* Left-align the travel buttons */
+    justify-content: flex-start;
     align-items: center;
     gap: 10px;
 }
@@ -88,12 +95,11 @@ body {
     display: none;
 }
 
-/* Info section: name, money, location, etc. */
 #info p {
     text-align: left;
     margin: 5px 0;
 }
 
 #info, #locations {
-    width: 100%; /* player info and locations take up full width of container */
+    width: 100%;
 }

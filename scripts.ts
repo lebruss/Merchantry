@@ -118,7 +118,8 @@ function updateUI(): void {
         const goodElement = document.createElement('div');
         goodElement.classList.add('good');
         goodElement.innerHTML = `
-            <span><strong>${good}</strong>: ${prices[good as keyof Prices]} € (Owned: ${character.inventory[good as keyof Inventory]}) (Last bought for: ${character.lastBoughtPrices[good as keyof Inventory]} €)</span>
+            <span><strong>${good}</strong>: ${prices[good as keyof Prices]} €</span>
+            <span class="last-bought">(Last bought for: ${character.lastBoughtPrices[good as keyof Inventory]} €) (Owned: ${character.inventory[good as keyof Inventory]})</span>
             <div class="buttons">
                 <button onclick="buyGood('${good}')">Buy</button>
                 <button onclick="buyMaxGood('${good}')">Buy Max</button>
