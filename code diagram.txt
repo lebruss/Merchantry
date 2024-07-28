@@ -1,0 +1,42 @@
+code diagram for Merchantry
+
+use Github issues
+
+
+started new styles.css
+
+character
+	name
+	location
+	money
+	inventory
+	lastBoughtPrices
+	days
+	julianDate
+
+Inventory
+	flour
+	meat
+	sugar
+	gunpowder
+	candles
+
+Prices
+	flour
+	meat
+	sugar
+	gunpowder
+	candles
+
+startYear
+endYear
+year
+month
+day
+
+buy
+sell
+buy max
+sell max
+
+travel
